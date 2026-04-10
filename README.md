@@ -91,4 +91,16 @@ The API **listens on `0.0.0.0`**, which platforms like Railway require for routi
 
 If you previously set a custom build in the dashboard, either remove it or rely on `railway.json` after you push.
 
+### Seed products (production database)
+
+The catalog is loaded by [`apps/api/src/seed.ts`](apps/api/src/seed.ts). After the first deploy (migrations applied, API healthy), run the compiled seed **once** (or anytime to refresh catalog fields by product name):
+
+```bash
+railway run --service <your-api-service> pnpm -C apps/api seed:prod
+```
+
+Use the same repo root and ensure `DATABASE_URL` is available (Railway injects it for `railway run`). The script is idempotent: existing rows are updated by **name**; missing catalog rows are inserted.
+
+Locally without Railway CLI: build then run `pnpm -C apps/api seed:prod` with `DATABASE_URL` pointing at your DB.
+
 
