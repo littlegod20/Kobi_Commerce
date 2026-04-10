@@ -57,7 +57,9 @@ Then set `STRIPE_WEBHOOK_SECRET` from the CLI output into `apps/api/.env`.
 
 ## Deployment (Railway API)
 
-The database is only reachable **inside Railway’s network at runtime**, not during the Docker **build**. Do **not** run `prisma migrate deploy` in the build step.
+The database is only reachable **inside Railway’s network at runtime**, not during the **build**. Do **not** run `prisma migrate deploy` in the build step (you will get `P1001` / can’t reach `postgres.railway.internal`).
+
+This repo includes [`railway.json`](railway.json) at the root. **Config in that file overrides** the Build/Start commands in the Railway dashboard—commit and redeploy so deploys stop appending `prisma migrate deploy` to the build.
 
 **Build command** (compile only; no DB):
 
@@ -72,5 +74,7 @@ pnpm -C apps/api start
 ```
 
 `apps/api`’s `start` script runs `prisma migrate deploy` then `node dist/index.js`. To skip migrations (e.g. local debugging), use `pnpm -C apps/api start:server`.
+
+If you previously set a custom build in the dashboard, either remove it or rely on `railway.json` after you push.
 
 
