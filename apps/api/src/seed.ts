@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { prisma } from "./prisma";
+import { prisma } from "./prisma.js";
 
 /** Replace known-broken Unsplash IDs; runs on every seed so existing DBs get fixes too. */
 const PRODUCT_IMAGE_FIXES: { name: string; images: string[] }[] = [

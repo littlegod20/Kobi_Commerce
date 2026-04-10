@@ -13,9 +13,9 @@ import {
   ProductSchema,
 } from "@kobi/shared";
 
-import { getEnv } from "./env";
-import { createCors, createHelmet } from "./http";
-import { prisma } from "./prisma";
+import { getEnv } from "./env.js";
+import { createCors, createHelmet } from "./http.js";
+import { prisma } from "./prisma.js";
 
 const env = getEnv();
 const log = pino({ level: process.env.LOG_LEVEL ?? "info" });
