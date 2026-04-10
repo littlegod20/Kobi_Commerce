@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js",
+    "start": "prisma migrate deploy && node dist/index.js",
+    "start:server": "node dist/index.js",
     "lint": "echo \"(api) lint skipped\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "prisma:generate": "prisma generate",

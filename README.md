@@ -55,7 +55,22 @@ stripe listen --forward-to http://localhost:4000/webhooks/stripe
 
 Then set `STRIPE_WEBHOOK_SECRET` from the CLI output into `apps/api/.env`.
 
-## Manual smoke test
+## Deployment (Railway API)
 
-See `[SMOKE.md](SMOKE.md)`.
+The database is only reachable **inside Railway’s network at runtime**, not during the Docker **build**. Do **not** run `prisma migrate deploy` in the build step.
+
+**Build command** (compile only; no DB):
+
+```bash
+pnpm -C packages/shared build && pnpm -C apps/api exec prisma generate && pnpm -C apps/api build
+```
+
+**Start command** (migrations run here, then the server):
+
+```bash
+pnpm -C apps/api start
+```
+
+`apps/api`’s `start` script runs `prisma migrate deploy` then `node dist/index.js`. To skip migrations (e.g. local debugging), use `pnpm -C apps/api start:server`.
+
 
