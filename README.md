@@ -93,14 +93,18 @@ If you previously set a custom build in the dashboard, either remove it or rely 
 
 ### Seed products (production database)
 
-The catalog is loaded by [`apps/api/src/seed.ts`](apps/api/src/seed.ts). After the first deploy (migrations applied, API healthy), run the compiled seed **once** (or anytime to refresh catalog fields by product name):
+The catalog is loaded by [`apps/api/src/seed.ts`](apps/api/src/seed.ts). On Railway, **deploys run the seed automatically** in [`railway.json`](railway.json) right after `prisma migrate deploy` (`seed:prod` runs `node dist/seed.js` inside Railway’s network, where Postgres is reachable). The script is idempotent: existing rows are updated by **name**; missing rows are inserted.
+
+**Why your Railway DB looked empty:** running `pnpm -C apps/api seed` or `pnpm -C apps/api seed:prod` **on your laptop** uses `apps/api/.env` or a `DATABASE_URL` that often points at `postgres.railway.internal`. That hostname **only resolves inside Railway**, so the client never reaches production Postgres (or you were seeding a local Docker DB instead). `railway run` also injects env **locally**, so it has the same limitation unless you use a **public** DB URL.
+
+**Manual seed from your machine (optional):** In the Railway dashboard, open your **Postgres** service → **Connect** / **Variables** and copy a connection string that uses the **TCP proxy (public) host**, or use `DATABASE_PUBLIC_URL` if present. Then:
 
 ```bash
-railway run --service <your-api-service> pnpm -C apps/api seed:prod
+pnpm -C packages/shared build && pnpm -C apps/api exec prisma generate && pnpm -C apps/api build
+set DATABASE_URL=postgresql://...   # Windows cmd; use `export` on macOS/Linux
+pnpm -C apps/api seed:prod
 ```
 
-Use the same repo root and ensure `DATABASE_URL` is available (Railway injects it for `railway run`). The script is idempotent: existing rows are updated by **name**; missing catalog rows are inserted.
-
-Locally without Railway CLI: build then run `pnpm -C apps/api seed:prod` with `DATABASE_URL` pointing at your DB.
+Or use the Railway dashboard’s **shell / SSH into the running API service** (if enabled) and run `pnpm -C apps/api seed:prod` from the repo root so the **internal** `DATABASE_URL` works.
 
 

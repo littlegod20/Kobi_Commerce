@@ -4,7 +4,9 @@
     "buildCommand": "pnpm -C packages/shared build && pnpm -C apps/api exec prisma generate && pnpm -C apps/api build"
   },
   "deploy": {
-    "preDeployCommand": ["pnpm -C apps/api exec prisma migrate deploy"],
+    "preDeployCommand": [
+      "pnpm -C apps/api exec prisma migrate deploy && pnpm -C apps/api seed:prod"
+    ],
     "startCommand": "pnpm -C apps/api start:server",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 120
