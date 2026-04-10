@@ -55,6 +55,14 @@ stripe listen --forward-to http://localhost:4000/webhooks/stripe
 
 Then set `STRIPE_WEBHOOK_SECRET` from the CLI output into `apps/api/.env`.
 
+## Deployment (Vercel — web app)
+
+Import the **Git repository root** (not `apps/web` only). [`vercel.json`](vercel.json) runs `pnpm install`, builds `@kobi/shared`, then builds the Vite app and sets **Output Directory** to `apps/web/dist`.
+
+Set **`VITE_API_URL`** in the Vercel project to your public API origin (e.g. `https://your-api.up.railway.app`). Redeploy after changing it.
+
+If the SPA 404s on refresh for routes like `/products`, add a rewrite to `index.html` in the Vercel project or extend `vercel.json` with SPA rewrites.
+
 ## Deployment (Railway API)
 
 The database is only reachable **inside Railway’s network at runtime**, not during the **build**. Do **not** run `prisma migrate deploy` in the build step (you will get `P1001` / can’t reach `postgres.railway.internal`).

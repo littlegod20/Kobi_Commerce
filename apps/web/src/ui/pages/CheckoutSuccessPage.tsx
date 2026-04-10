@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import type { Order } from "@kobi/shared";
+import type { Order, OrderItem } from "@kobi/shared";
 
 import { getOrderBySessionId } from "../../lib/api";
 import { Button } from "../components/Button";
@@ -106,7 +106,7 @@ export function CheckoutSuccessPage() {
           </div>
 
           <div className="mt-6 space-y-3">
-            {order.items.map((it) => (
+            {order.items.map((it: OrderItem) => (
               <div
                 key={it.id}
                 className="flex items-center justify-between gap-4 border-t border-zinc-100 pt-3 first:border-t-0 first:pt-0"
