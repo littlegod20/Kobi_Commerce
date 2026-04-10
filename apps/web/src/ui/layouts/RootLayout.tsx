@@ -15,8 +15,14 @@ export function RootLayout() {
     <div className="min-h-screen bg-white text-zinc-900">
       <header className="sticky top-0 z-40 border-b border-zinc-200/70 bg-white/70 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <NavLink to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500" />
+          <NavLink
+            to="/"
+            className="flex items-center gap-2.5"
+            aria-label="Kobi Commerce home"
+          >
+            <div className="flex h-8 min-w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 px-1.5 text-[12px] font-bold leading-none tracking-tight text-white shadow-sm shadow-violet-500/30">
+              KC
+            </div>
             <span className="text-sm font-semibold tracking-tight">
               Kobi Commerce
             </span>

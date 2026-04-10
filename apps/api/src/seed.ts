@@ -2,7 +2,36 @@ import "dotenv/config";
 
 import { prisma } from "./prisma";
 
+/** Replace known-broken Unsplash IDs; runs on every seed so existing DBs get fixes too. */
+const PRODUCT_IMAGE_FIXES: { name: string; images: string[] }[] = [
+  {
+    name: "Nimbus Runner",
+    images: [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80",
+    ],
+  },
+  {
+    name: "Pulse Headphones",
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=80",
+    ],
+  },
+  {
+    name: "Aero Jacket",
+    images: [
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1600&q=80",
+    ],
+  },
+];
+
 async function main() {
+  for (const { name, images } of PRODUCT_IMAGE_FIXES) {
+    await prisma.product.updateMany({
+      where: { name },
+      data: { images },
+    });
+  }
+
   const existing = await prisma.product.count();
   if (existing > 0) return;
 
@@ -14,7 +43,7 @@ async function main() {
         priceCents: 12900,
         currency: "USD",
         images: [
-          "https://images.unsplash.com/photo-1528701800489-20be3c1ea38b?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80",
         ],
         category: "Footwear",
         inventory: 24,
@@ -47,7 +76,7 @@ async function main() {
         priceCents: 19900,
         currency: "USD",
         images: [
-          "https://images.unsplash.com/photo-1518441902117-f0a1b3b1b3d7?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=80",
         ],
         category: "Audio",
         inventory: 18,
@@ -91,7 +120,7 @@ async function main() {
         priceCents: 14900,
         currency: "USD",
         images: [
-          "https://images.unsplash.com/photo-1520975680418-7e1b4ccf5be7?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1600&q=80",
         ],
         category: "Apparel",
         inventory: 16,

@@ -61,13 +61,23 @@ export function HomePage() {
           </div>
 
           <motion.div
-            className="relative"
+            className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-100 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)]"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
-            <div className="aspect-[4/3] w-full rounded-3xl border border-zinc-200 bg-white shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)]" />
-            <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-violet-500/10 via-fuchsia-500/10 to-cyan-500/10" />
+            <img
+              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80"
+              alt="Bright retail space with clothing displays and warm lighting"
+              className="aspect-[4/3] h-full w-full object-cover"
+              width={1600}
+              height={1200}
+              decoding="async"
+              fetchPriority="high"
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/5" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-violet-600/15 via-transparent to-cyan-500/10" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/20 to-transparent" />
           </motion.div>
         </div>
       </section>
@@ -75,16 +85,16 @@ export function HomePage() {
       <section className="grid gap-4 md:grid-cols-3">
         {[
           {
-            title: "Fast",
-            body: "Vite + React, optimized UI patterns, minimal layout shift.",
+            title: "Quick from cart to door",
+            body: "Straightforward checkout and fast fulfillment—so you spend less time waiting and more time enjoying what you ordered.",
           },
           {
-            title: "Polished",
-            body: "Modern typography, subtle gradients, and smooth motion.",
+            title: "Curated with care",
+            body: "Pieces chosen for quality, comfort, and everyday use—not trends that fade after the first week.",
           },
           {
-            title: "Real payments",
-            body: "Stripe Checkout + webhook-verified fulfillment status.",
+            title: "Pay with confidence",
+            body: "Secure card checkout and clear order updates, so you always know your payment went through and where your package is.",
           },
         ].map((c) => (
           <div
