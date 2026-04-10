@@ -57,7 +57,9 @@ Then set `STRIPE_WEBHOOK_SECRET` from the CLI output into `apps/api/.env`.
 
 ## Deployment (Vercel — web app)
 
-Import the **Git repository root** (not `apps/web` only). [`vercel.json`](vercel.json) runs `pnpm install`, builds `@kobi/shared`, then builds the Vite app and sets **Output Directory** to `apps/web/dist`.
+In the Vercel project, set **Root Directory** to the **repository root** (leave blank / `.`). Do **not** set it to `apps/web`, or installs won’t see the pnpm workspace and the build will fail.
+
+[`vercel.json`](vercel.json) runs `pnpm install` at the root, then `pnpm run build:web` (Vite + `tsc`; `@kobi/shared` resolves from source via path aliases—no separate shared build step). **Output Directory** is `apps/web/dist`.
 
 Set **`VITE_API_URL`** in the Vercel project to your public API origin (e.g. `https://your-api.up.railway.app`). Redeploy after changing it.
 

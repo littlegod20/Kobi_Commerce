@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "concurrently -n web,api -c \"#7c3aed,#22c55e\" \"pnpm -C apps/web dev\" \"pnpm -C apps/api dev\"",
     "build": "pnpm -C packages/shared build && pnpm -C apps/api build && pnpm -C apps/web build",
+    "build:web": "pnpm -C apps/web build",
     "lint": "pnpm -r lint",
     "format": "prettier . --write",
     "typecheck": "pnpm -r typecheck"
