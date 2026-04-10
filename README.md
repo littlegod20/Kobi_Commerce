@@ -67,13 +67,17 @@ This repo includes [`railway.json`](railway.json) at the root. **Config in that 
 pnpm -C packages/shared build && pnpm -C apps/api exec prisma generate && pnpm -C apps/api build
 ```
 
-**Start command** (migrations run here, then the server):
+**Start command** on Railway (see [`railway.json`](railway.json)): migrations run in **`preDeployCommand`**, then the process uses **`start:server`** (`node dist/index.js` only) so HTTP comes up quickly and healthchecks can pass.
+
+For a **single command** elsewhere (e.g. VPS), use:
 
 ```bash
 pnpm -C apps/api start
 ```
 
-`apps/api`’s `start` script runs `prisma migrate deploy` then `node dist/index.js`. To skip migrations (e.g. local debugging), use `pnpm -C apps/api start:server`.
+That runs `prisma migrate deploy` then `node dist/index.js`. For local debugging without migrations, use `pnpm -C apps/api start:server`.
+
+The API **listens on `0.0.0.0`**, which platforms like Railway require for routing and healthchecks.
 
 If you previously set a custom build in the dashboard, either remove it or rely on `railway.json` after you push.
 

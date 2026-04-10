@@ -23,6 +23,9 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 const app = express();
 
+// Liveness: keep this route early and lightweight so platform healthchecks succeed quickly.
+app.get("/health", (_req, res) => res.status(200).json({ ok: true }));
+
 // Stripe webhooks require the raw request body. Mount webhook route before JSON middleware.
 app.post(
   "/webhooks/stripe",
@@ -86,8 +89,6 @@ app.use(pinoHttp({ logger: log }));
 app.use(createHelmet());
 app.use(createCors(env.CLIENT_URL));
 app.use(express.json());
-
-app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.get("/products", async (req, res) => {
   const QuerySchema = z.object({
@@ -247,7 +248,8 @@ app.get("/orders/by-session/:sessionId", async (req, res) => {
   );
 });
 
-app.listen(env.PORT, () => {
-  log.info({ port: env.PORT }, "api listening");
+// Bind on all interfaces — required for Railway/Docker (healthchecks hit the container IP).
+app.listen(env.PORT, "0.0.0.0", () => {
+  log.info({ port: env.PORT, host: "0.0.0.0" }, "api listening");
 });
 
