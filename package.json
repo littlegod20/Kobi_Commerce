@@ -1,0 +1,20 @@
+{
+  "name": "kobi-ecommerce",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n web,api -c \"#7c3aed,#22c55e\" \"pnpm -C apps/web dev\" \"pnpm -C apps/api dev\"",
+    "build": "pnpm -C packages/shared build && pnpm -C apps/api build && pnpm -C apps/web build",
+    "lint": "pnpm -r lint",
+    "format": "prettier . --write",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  }
+}
